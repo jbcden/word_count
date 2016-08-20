@@ -7,7 +7,7 @@ mod word_counter {
 
     pub fn count(str: &str) -> BTreeMap<&str, i32> {
         let mut map = BTreeMap::new();
-        let re = Regex::new(r"[ :!&@$%^&]+").unwrap();
+        let re = Regex::new(r"[ ,:!&@$%^&]+").unwrap();
         let words = re.split(str);
 
         for word in words {
@@ -74,6 +74,18 @@ mod tests {
         map.insert("as", 1);
         map.insert("java", 1);
         map.insert("javascript", 1);
+
+        assert_eq!(word_counter::count(str), map);
+    }
+
+    #[test]
+    fn includes_numbers() {
+        let str = "testing, 1, 2 testing";
+
+        let mut map = BTreeMap::new();
+        map.insert("testing", 2);
+        map.insert("1", 1);
+        map.insert("2", 1);
 
         assert_eq!(word_counter::count(str), map);
     }
