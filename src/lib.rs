@@ -1,10 +1,14 @@
+extern crate regex;
+
 #[allow(dead_code)]
 mod word_counter {
     use std::collections::BTreeMap;
+    use regex::Regex;
 
     pub fn count(str: &str) -> BTreeMap<&str, i32> {
         let mut map = BTreeMap::new();
-        let words = str.split(' ');
+        let re = Regex::new(r"[ :!&@$%^&]+").unwrap();
+        let words = re.split(str);
 
         for word in words {
             let value = match map.get(&word) {
@@ -61,7 +65,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
     fn ignore_punctuation() {
         let str = "car : carpet as java : javascript!!&@$%^&";
 
